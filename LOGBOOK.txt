@@ -59,3 +59,6 @@
     add-on recommendations), prototypes/ (Stage 0 code kept for history).
   + Initialised git repository with first commit.
 
+
+[2026-11-17] REPO SETUP
+  + Target repo set: github.com/abhiram-1508/KANTHAKA-THE-AI- (public, empty at time of check). Remote 'origin' configured. Push must be done from the owner's PC (needs GitHub login).
