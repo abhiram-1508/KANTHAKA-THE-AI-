@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.env
+credentials.json
+token.json
+*.wav
+*.onnx
+venv/
+.venv/
+dist/
+build/
+*.spec

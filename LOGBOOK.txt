@@ -1,0 +1,61 @@
+==========================================================================
+ J.A.R.V.I.S. DEVELOPMENT LOGBOOK
+ Project : Local voice assistant with Gmail intelligence (Windows)
+ Rule    : Every change gets an entry. Newest entries go at the BOTTOM.
+           Add entries with:  python log.py "what changed"
+==========================================================================
+
+--------------------------------------------------------------------------
+ DEVELOPMENT STAGES
+--------------------------------------------------------------------------
+ [x] Stage 0  Prototype      - Command-line assistant, IMAP email check
+ [x] Stage 1  Desktop app    - PySide6 UI, Gmail API, memory, Piper, tray
+ [ ] Stage 2  Real-world test- Run on actual PC + Gmail, fix bugs
+ [ ] Stage 3  Hardening      - Better wake word, error handling, logging
+ [ ] Stage 4  Smarter mail   - Semantic email search, calendar, deadlines
+ [ ] Stage 5  Packaging      - Single .exe installer, start with Windows
+
+--------------------------------------------------------------------------
+ ENTRIES
+--------------------------------------------------------------------------
+
+[2026-11-17] STAGE 0 - Prototype (v0.0)
+  + Created jarvis.py: CLI assistant, runs fully locally.
+  + Brain: Ollama (llama3.1:8b). Speech-in: faster-whisper. Speech-out: pyttsx3.
+  + Email via IMAP + Gmail app password, opened READ-ONLY.
+  + Per-email importance triage by local LLM; spoken summary of important mail.
+  + Wake word "Jarvis" by transcript matching. Text mode via --text.
+  ! Limitation: app-password IMAP, robotic voice, no memory, no GUI.
+  Files: prototypes/jarvis_cli_v0/
+
+[2026-11-17] STAGE 1 - Desktop application (v0.1)
+  + Redesigned into modules: config, memory, gmail_client, brain, actions,
+    voice, main.
+  + Gmail API with OAuth, READ-ONLY scope (gmail.readonly) - cannot send,
+    delete or modify mail.
+  + Email intelligence: local LLM classifies each mail (important, category,
+    summary, deadline, needs_reply); results cached in SQLite.
+  + Daily spoken briefing on first launch of the day.
+  + Background polling every 10 min; tray + voice alerts for new important
+    mail and deadlines within 2 days (once per day per email).
+  + "Summarize the <topic> email" - keyword search over cached mail, then
+    LLM summary. "Draft a reply" generates text only, never sends.
+  + Memory: "remember that ..." facts + last 12 chat turns, in SQLite.
+  + PC control: allow-listed apps/sites only (actions.py, ~/.jarvis/apps.json).
+  + Voice: Whisper (offline) in, Piper (offline) out, pyttsx3 fallback.
+    Mic is paused while JARVIS speaks. 25 s open-conversation window after
+    each wake word.
+  + PySide6 dark UI, status indicator, mute button, system tray.
+  + All files pass syntax compilation (py_compile).
+  ! NOT YET TESTED on real hardware (no mic/Gmail/Ollama in dev sandbox).
+  ! Known risks: Whisper may mishear "Jarvis" (try small.en); Google
+    'Testing' OAuth tokens expire every 7 days; keyword email search can
+    miss mails with unusual wording.
+  Files: jarvis_desktop/*.py, README.md, requirements.txt
+
+[2026-11-17] REPO SETUP
+  + Added .gitignore (secrets: credentials.json, token.json, .env excluded).
+  + Added LOGBOOK.txt, log.py (append helper), PLUGINS.md (dependency and
+    add-on recommendations), prototypes/ (Stage 0 code kept for history).
+  + Initialised git repository with first commit.
+
