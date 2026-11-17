@@ -1,4 +1,4 @@
-"""Read-only Gmail access. JARVIS can never send, delete or modify mail."""
+"""Read-only Gmail access. KANTHAKA can never send, delete or modify mail."""
 import base64
 import re
 from datetime import datetime

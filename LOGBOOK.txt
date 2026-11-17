@@ -1,5 +1,5 @@
 ==========================================================================
- J.A.R.V.I.S. DEVELOPMENT LOGBOOK
+ KANTHAKA DEVELOPMENT LOGBOOK  (formerly J.A.R.V.I.S.)
  Project : Local voice assistant with Gmail intelligence (Windows)
  Rule    : Every change gets an entry. Newest entries go at the BOTTOM.
            Add entries with:  python log.py "what changed"
@@ -62,3 +62,9 @@
 
 [2026-11-17] REPO SETUP
   + Target repo set: github.com/abhiram-1508/KANTHAKA-THE-AI- (public, empty at time of check). Remote 'origin' configured. Push must be done from the owner's PC (needs GitHub login).
+
+[2026-11-17] RENAME v0.2
+  + Project renamed JARVIS -> KANTHAKA. Renamed: app/window/tray text, assistant persona, data folder (~/.jarvis -> ~/.kanthaka), db file, prototype folder (prototypes/kanthaka_cli_v0), project folder (kanthaka_desktop). Earlier logbook entries keep the old name on purpose (history).
+
+[2026-11-17] RENAME v0.2
+  + Wake word: single 'wake_word' setting replaced by 'wake_words' list of spellings (kanthaka, kantaka, kanthika, ...) because speech recognition often mishears unusual names. Whisper now gets initial_prompt 'Kanthaka' to bias it toward the name. NOTE: existing settings.json from an older run must be deleted or edited to the new key.

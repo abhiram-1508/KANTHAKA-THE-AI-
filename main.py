@@ -42,7 +42,7 @@ class Window(QMainWindow):
 
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("J.A.R.V.I.S.")
+        self.setWindowTitle("KANTHAKA")
         self.resize(560, 700)
         self.brain = Brain()
         self.speaker = Speaker(on_state=self.state.emit)
@@ -52,7 +52,7 @@ class Window(QMainWindow):
         self.status = QLabel(); self.status.setAlignment(Qt.AlignCenter)
         self.status.setStyleSheet("font-size:20px; letter-spacing:4px; padding:12px;")
         self.view = QTextBrowser()
-        self.input = QLineEdit(placeholderText="Type a command, or just say 'Jarvis ...'")
+        self.input = QLineEdit(placeholderText="Type a command, or just say 'Kanthaka ...'")
         self.input.returnPressed.connect(self.on_type)
         mic = QPushButton("Mute mic"); mic.clicked.connect(lambda: self.toggle_mute(mic))
         brief = QPushButton("Email briefing"); brief.clicked.connect(lambda: self.ask("check my email"))
@@ -63,7 +63,7 @@ class Window(QMainWindow):
         # --- tray
         self.tray = QSystemTrayIcon(tray_icon(), self)
         menu = QMenu()
-        a = QAction("Show JARVIS", self); a.triggered.connect(self.showNormal)
+        a = QAction("Show KANTHAKA", self); a.triggered.connect(self.showNormal)
         q = QAction("Quit", self); q.triggered.connect(self.quit)
         menu.addAction(a); menu.addAction(q)
         self.tray.setContextMenu(menu); self.tray.show()
@@ -85,7 +85,7 @@ class Window(QMainWindow):
 
     # ------------------------------------------------------------ UI helpers
     def append(self, who, text):
-        color = "#3ddcff" if who == "JARVIS" else "#9fb4c8"
+        color = "#3ddcff" if who == "KANTHAKA" else "#9fb4c8"
         self.view.append(f"<p><b style='color:{color}'>{who}</b><br>{text.replace(chr(10), '<br>')}</p>")
 
     def set_state(self, s):
@@ -101,8 +101,8 @@ class Window(QMainWindow):
         self.set_state("idle")
 
     def show_alert(self, text):
-        self.tray.showMessage("JARVIS", text, QSystemTrayIcon.Information, 10000)
-        self.append("JARVIS", text)
+        self.tray.showMessage("KANTHAKA", text, QSystemTrayIcon.Information, 10000)
+        self.append("KANTHAKA", text)
 
     # ------------------------------------------------------------- behaviour
     def on_type(self):
@@ -113,7 +113,7 @@ class Window(QMainWindow):
 
     def on_heard(self, text):
         if text == "__wake__":
-            self.append("JARVIS", f"Yes, {S['user_name']}?")
+            self.append("KANTHAKA", f"Yes, {S['user_name']}?")
             return self.speaker.speak(f"Yes, {S['user_name']}?")
         self.ask(text)
 
@@ -123,7 +123,7 @@ class Window(QMainWindow):
 
         def work():
             reply = self.brain.handle(text)
-            self.log.emit("JARVIS", reply)
+            self.log.emit("KANTHAKA", reply)
             self.speaker.speak(reply)
         threading.Thread(target=work, daemon=True).start()
 
@@ -134,14 +134,14 @@ class Window(QMainWindow):
                     self.notify.emit(msg)
                     self.speaker.speak(msg)
             except Exception as e:
-                self.log.emit("JARVIS", f"Email check failed: {e}")
+                self.log.emit("KANTHAKA", f"Email check failed: {e}")
         threading.Thread(target=work, daemon=True).start()
 
     def startup(self):
         if not gmail_client.configured():
             msg = (f"Good day, {S['user_name']}. Gmail isn't connected yet. "
                    f"Follow step 4 of the README to enable email intelligence.")
-            self.log.emit("JARVIS", msg); self.speaker.speak(msg); return
+            self.log.emit("KANTHAKA", msg); self.speaker.speak(msg); return
         if self.brain.mem.meta("last_briefing") != str(date.today()):
             self.say_async(lambda: [self.brain.briefing()])
         else:
@@ -153,7 +153,7 @@ class Window(QMainWindow):
 
     def closeEvent(self, e):  # close button hides to tray
         e.ignore(); self.hide()
-        self.tray.showMessage("JARVIS", "Still running in the background.", QSystemTrayIcon.Information, 3000)
+        self.tray.showMessage("KANTHAKA", "Still running in the background.", QSystemTrayIcon.Information, 3000)
 
     def quit(self):
         self.listener.stop(); self.tray.hide(); QApplication.quit()

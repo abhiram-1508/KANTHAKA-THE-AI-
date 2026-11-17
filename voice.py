@@ -61,7 +61,7 @@ class Speaker:
     def _say(self, text):
         voice = S["voice"]
         if (config.VOICES / f"{voice}.onnx").exists():
-            out = Path(tempfile.gettempdir()) / "jarvis_tts.wav"
+            out = Path(tempfile.gettempdir()) / "kanthaka_tts.wav"
             subprocess.run([sys.executable, "-m", "piper", "-m", voice, "--data-dir", str(config.VOICES),
                             "-f", str(out)], input=text.encode(), check=True,
                            creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
@@ -108,7 +108,8 @@ class Listener(QThread):
 
     def run(self):
         model = WhisperModel(S["whisper"], compute_type="int8")
-        wake = S["wake_word"].lower()
+        wakes = [w.lower() for w in S["wake_words"]]
+        wake_re = re.compile(r"(?i)\b(" + "|".join(re.escape(w) for w in wakes) + r")\b[,.!?]*\s*")
         with sd.InputStream(samplerate=SR, channels=1, dtype="float32", blocksize=BLOCK) as st:
             amb = np.mean([np.sqrt(np.mean(st.read(BLOCK)[0] ** 2)) for _ in range(10)])
             thr = max(0.012, float(amb) * 3)
@@ -116,14 +117,14 @@ class Listener(QThread):
                 audio = self._record(st, thr)
                 if audio is None or len(audio) < SR * 0.4:
                     continue
-                segs, _ = model.transcribe(audio, language="en", vad_filter=True)
+                segs, _ = model.transcribe(audio, language="en", vad_filter=True, initial_prompt="Kanthaka, open, email, summarize.")
                 text = " ".join(s.text for s in segs).strip()
                 if st.read_available:
                     st.read(st.read_available)  # drop what piled up while transcribing
                 if len(text) < 2:
                     continue
-                if wake in text.lower():
-                    text = re.sub(rf"(?i)\b{wake}\b[,.!?]*\s*", "", text).strip() or "__wake__"
+                if wake_re.search(text):
+                    text = wake_re.sub("", text, count=1).strip() or "__wake__"
                     self.awake_until = time.time() + 25
                 elif time.time() < self.awake_until:
                     self.awake_until = time.time() + 25  # keep conversation open

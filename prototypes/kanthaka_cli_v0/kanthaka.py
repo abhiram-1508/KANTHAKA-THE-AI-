@@ -1,7 +1,7 @@
 """
-JARVIS - a fully local voice assistant that checks your email.
+KANTHAKA - a fully local voice assistant that checks your email.
 
-Say "Jarvis, check my email" or "Jarvis, anything important?"
+Say "Kanthaka, check my email" or "Kanthaka, anything important?"
 Run with --text to type instead of talk.
 """
 import argparse
@@ -32,7 +32,7 @@ USER_NAME = os.getenv("USER_NAME", "sir")
 MAX_EMAILS = int(os.getenv("MAX_EMAILS", "15"))
 
 SYSTEM_PROMPT = (
-    f"You are JARVIS, a witty, calm, highly capable personal assistant, in the style "
+    f"You are KANTHAKA, a witty, calm, highly capable personal assistant, in the style "
     f"of the AI from Iron Man. Address the user as '{USER_NAME}'. Speak in short, "
     f"natural sentences (1-3 sentences unless asked for more) because your replies "
     f"are read aloud. No markdown, no lists, no emojis."
@@ -48,7 +48,7 @@ _tts.setProperty("rate", 175)
 
 
 def say(text: str):
-    print(f"\nJARVIS: {text}\n")
+    print(f"\nKANTHAKA: {text}\n")
     _tts.say(text)
     _tts.runAndWait()
 
@@ -198,7 +198,7 @@ def respond(user_text: str):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--text", action="store_true", help="type instead of speak")
-    ap.add_argument("--no-wake", action="store_true", help="skip the 'Jarvis' wake word")
+    ap.add_argument("--no-wake", action="store_true", help="skip the 'Kanthaka' wake word")
     args = ap.parse_args()
 
     say(f"Systems online. Good to see you, {USER_NAME}.")
@@ -214,9 +214,9 @@ def main():
             print(f"You: {heard}")
 
             if not args.text and not args.no_wake:
-                if "jarvis" not in heard.lower():
+                if "kanthaka" not in heard.lower():
                     continue
-                heard = re.sub(r"(?i)\bjarvis\b[,.!]?\s*", "", heard).strip()
+                heard = re.sub(r"(?i)\bkanthaka\b[,.!]?\s*", "", heard).strip()
                 if not heard:
                     say(f"Yes, {USER_NAME}?")
                     continue

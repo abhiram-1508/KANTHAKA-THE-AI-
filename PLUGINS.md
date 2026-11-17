@@ -1,4 +1,4 @@
-# Plugins / libraries / models for JARVIS
+# Plugins / libraries / models for KANTHAKA
 
 ## A. Required (already in requirements.txt)
 | Component | Purpose |
@@ -14,7 +14,7 @@
 ## B. Strongly recommended next (highest value)
 | Add-on | Why |
 |---|---|
-| **openWakeWord** | Real wake-word detection ("Hey Jarvis") instead of transcribing everything; far lower CPU, fewer mishears |
+| **openWakeWord** | Real wake-word detection (needs a custom-trained "Kanthaka" model; pretrained ones only cover words like "hey jarvis") instead of transcribing everything; far lower CPU, fewer mishears |
 | **silero-vad** (or webrtcvad) | Much better start/stop-of-speech detection than the energy threshold |
 | **keyring** | Store the Gmail token in Windows Credential Manager, not a plain file |
 | **Google Calendar API** (same OAuth, add `calendar.readonly`) | "What's on my schedule?", meeting-aware alerts |
@@ -36,4 +36,4 @@
 - Gmail scope stays `gmail.readonly`.
 - Never commit `credentials.json`, `token.json`, `.env` (already in .gitignore).
 - PC control only via the allow-list in `actions.py`.
-- JARVIS drafts replies but never sends them without a new, explicit feature + confirmation step.
+- KANTHAKA drafts replies but never sends them without a new, explicit feature + confirmation step.

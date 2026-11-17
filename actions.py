@@ -1,4 +1,4 @@
-"""PC control. JARVIS can only open things on these allow-lists (edit ~/.jarvis/apps.json to add more)."""
+"""PC control. KANTHAKA can only open things on these allow-lists (edit ~/.kanthaka/apps.json to add more)."""
 import json
 import os
 import subprocess

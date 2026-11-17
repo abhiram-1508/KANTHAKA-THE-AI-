@@ -1,4 +1,4 @@
-# JARVIS (local)
+# KANTHAKA (local)
 
 ## Setup
 1. Install Python 3.10+ and Ollama (https://ollama.com).
@@ -9,8 +9,8 @@
    Gmail: turn on 2-step verification, then create an App Password at
    https://myaccount.google.com/apppasswords (normal password won't work).
    Outlook: IMAP_HOST=outlook.office365.com   Yahoo: imap.mail.yahoo.com
-5. python jarvis.py            (voice: say "Jarvis, check my email")
-   python jarvis.py --text     (typing mode, good for testing first)
+5. python kanthaka.py            (voice: say "Kanthaka, check my email")
+   python kanthaka.py --text     (typing mode, good for testing first)
 
 ## Notes
 - Mail is opened read-only, so nothing gets marked as read or deleted.
